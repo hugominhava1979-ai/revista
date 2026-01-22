@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MultiverSTB</title>
+
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #60bfcc, #e8f5e9);
+      color: #222;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Banner fixo */
+    .ad-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #f8f8f8;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+      z-index: 1000;
+    }
+
+    .ad-banner img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .content-wrapper {
+      padding-top: 85px; /* Subi ligeiramente */
+    }
+
+    header {
+      padding: 10px 20px;
+    }
+
+    .logo {
+      width: 150px; /* ligeiramente menor */
+      height: auto;
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      font-weight: 700;
+      color: #333;
+      margin-top: 5px;
+    }
+
+    /* GRID ÚNICA PARA TODOS OS BOTÕES */
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 25px;
+      padding: 30px 20px;
+      width: 100%;
+      max-width: 1100px; /* permite 4 colunas */
+      margin: 0 auto;
+    }
+
+    .btn-img {
+      height: 150px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      transition: 0.25s ease;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 12px;
+    }
+
+    .btn-img span {
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .btn-img:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 15px;
+      font-size: 0.9rem;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Banner fixo -->
+  <div class="ad-banner">
+    <img src="https://via.placeholder.com/728x90?text=Publicidade" alt="Banner Publicitário">
+  </div>
+
+  <div class="content-wrapper">
+    <header>
+      <img src="https://i.imgur.com/PAta7XD.png" alt="Logo MultiverSTB" class="logo" />
+      <h1>MultiverSTB</h1>
+    </header>
+
+    <main>
+      <div class="button-grid">
+
+        <button class="hortatialvaro.html" style="background-image:url('https://jardimpark.com.br/wp-content/uploads/2019/03/horta.jpg')" onclick="navigate('horta')">
+          <span>🌱 Horta</span>
+        </button>
+
+        <button class="Eletricidade.html" style="background-image:url('https://wallpapers.com/images/hd/electricity-pictures-gf8ctp376vsd8xa5.jpg')" onclick="navigate('eletricidade')">
+          <span>⚡ Eletricidade</span>
+        </button>
+
+        <button class="technoticias.html" style="background-image:url('https://img77.uenicdn.com/image/upload/v1561451243/service_images/shutterstock_520492693.jpg')" onclick="navigate('eletronicos')">
+          <span>📱 Hi-Tech</span>
+        </button>
+
+         <button class="btn-img" style="background-image:url('https://www.wonderfulpcb.com/wp-content/uploads/2025/03/Role-of-Electronic-Devices-Circuits-in-Modern-Technology.png')" onclick="navigate('equipamentos')">
+          <span>🔧 Peças e Equip. Eletrónicos</span>
+        </button>
+
+        <button class="autopeças.html" style="background-image:url('https://0ad1cf25e6.cbaul-cdnwnd.com/e06ad804cf6570cc12e05b9aa9129586/200000001-04f8704f8a/Como-montar-uma-auto-peca-1.jpg?ph=0ad1cf25e6')" onclick="navigate('pecas')">
+          <span>🚗 Peças Auto</span>
+        </button>
+
+        <button class="copioarmory.html" style="background-image:url('https://s2-g1.glbimg.com/GEf9G0s7_d3-yXY1Y0YFBrbUpDY=/0x0:1700x1065/1008x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2017/a/T/r4in8vRpClYFyIYeDo1Q/faca.jpg')" onclick="navigate('cutelaria')">
+          <span>🔪 Cutelaria</span>
+        </button>
+
+        <button class="btn-img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUVMa9hRLQN0yh3Krf4SN1_u5CCXxk6AMskQ&s')" onclick="navigate('eventos')">
+          <span>🎉 Eventos e Comércio</span>
+        </button>
+
+        <button class="btn-img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9UBUVxihsjaQTfKAghYDlpgvxKp1acQ3L5g&s')" onclick="navigate('cripto')">
+          <span>💰 Criptomoedas</span>
+        </button>
+
+        
+       
+
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 MultiverSTB</p>
+  </footer>
+
+  <script>
+    function navigate(section) {
+      alert("Navegar para: " + section);
+    }
+  </script>
+
+</body>
+</html>
