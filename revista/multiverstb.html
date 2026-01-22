@@ -41,7 +41,7 @@
     }
 
     .content-wrapper {
-      padding-top: 85px; /* Subi ligeiramente */
+      padding-top: 85px;
     }
 
     header {
@@ -49,7 +49,7 @@
     }
 
     .logo {
-      width: 150px; /* ligeiramente menor */
+      width: 150px;
       height: auto;
       margin-bottom: 5px;
     }
@@ -68,7 +68,7 @@
       gap: 25px;
       padding: 30px 20px;
       width: 100%;
-      max-width: 1100px; /* permite 4 colunas */
+      max-width: 1100px;
       margin: 0 auto;
     }
 
@@ -103,6 +103,26 @@
       box-shadow: 0 6px 16px rgba(0,0,0,0.18);
     }
 
+    /* BOTÃO DA REVISTA */
+    .revista-btn {
+      display: inline-block;
+      margin: 20px auto 10px auto;
+      padding: 10px 22px;
+      background: #0077b6;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      transition: 0.25s ease;
+    }
+
+    .revista-btn:hover {
+      background: #005f8a;
+      transform: translateY(-3px);
+    }
+
     footer {
       margin-top: auto;
       padding: 15px;
@@ -128,31 +148,31 @@
     <main>
       <div class="button-grid">
 
-        <button class="hortatialvaro.html" style="background-image:url('https://jardimpark.com.br/wp-content/uploads/2019/03/horta.jpg')" onclick="navigate('horta')">
+        <button class="btn-img" style="background-image:url('https://jardimpark.com.br/wp-content/uploads/2019/03/horta.jpg')" onclick="navigate('hortatialvaro.html')">
           <span>🌱 Horta</span>
         </button>
 
-        <button class="Eletricidade.html" style="background-image:url('https://wallpapers.com/images/hd/electricity-pictures-gf8ctp376vsd8xa5.jpg')" onclick="navigate('eletricidade')">
+        <button class="btn-img" style="background-image:url('https://wallpapers.com/images/hd/electricity-pictures-gf8ctp376vsd8xa5.jpg')" onclick="navigate('Eletricidade.html')">
           <span>⚡ Eletricidade</span>
         </button>
 
-        <button class="technoticias.html" style="background-image:url('https://img77.uenicdn.com/image/upload/v1561451243/service_images/shutterstock_520492693.jpg')" onclick="navigate('eletronicos')">
+        <button class="btn-img" style="background-image:url('https://img77.uenicdn.com/image/upload/v1561451243/service_images/shutterstock_520492693.jpg')" onclick="navigate('technoticias.html')">
           <span>📱 Hi-Tech</span>
         </button>
 
-         <button class="btn-img" style="background-image:url('https://www.wonderfulpcb.com/wp-content/uploads/2025/03/Role-of-Electronic-Devices-Circuits-in-Modern-Technology.png')" onclick="navigate('equipamentos')">
+        <button class="btn-img" style="background-image:url('https://www.wonderfulpcb.com/wp-content/uploads/2025/03/Role-of-Electronic-Devices-Circuits-in-Modern-Technology.png')" onclick="navigate('equipamentos')">
           <span>🔧 Peças e Equip. Eletrónicos</span>
         </button>
 
-        <button class="autopeças.html" style="background-image:url('https://0ad1cf25e6.cbaul-cdnwnd.com/e06ad804cf6570cc12e05b9aa9129586/200000001-04f8704f8a/Como-montar-uma-auto-peca-1.jpg?ph=0ad1cf25e6')" onclick="navigate('pecas')">
+        <button class="btn-img" style="background-image:url('https://0ad1cf25e6.cbaul-cdnwnd.com/e06ad804cf6570cc12e05b9aa9129586/200000001-04f8704f8a/Como-montar-uma-auto-peca-1.jpg?ph=0ad1cf25e6')" onclick="navigate('autopeças.html')">
           <span>🚗 Peças Auto</span>
         </button>
 
-        <button class="copioarmory.html" style="background-image:url('https://s2-g1.glbimg.com/GEf9G0s7_d3-yXY1Y0YFBrbUpDY=/0x0:1700x1065/1008x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2017/a/T/r4in8vRpClYFyIYeDo1Q/faca.jpg')" onclick="navigate('cutelaria')">
+        <button class="btn-img" style="background-image:url('https://s2-g1.glbimg.com/GEf9G0s7_d3-yXY1Y0YFBrbUpDY=/0x0:1700x1065/1008x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2017/a/T/r4in8vRpClYFyIYeDo1Q/faca.jpg')" onclick="navigate('copioarmory.html')">
           <span>🔪 Cutelaria</span>
         </button>
 
-        <button class="btn-img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUVMa9hRLQN0yh3Krf4SN1_u5CCXxk6AMskQ&s')" onclick="navigate('eventos')">
+        <button class="btn-img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUVMa9hRLQN0yh3Krf4SN1_u5CCXxk6AMskQ&s')" onclick="navigate('sadodowntown.html')">
           <span>🎉 Eventos e Comércio</span>
         </button>
 
@@ -160,12 +180,14 @@
           <span>💰 Criptomoedas</span>
         </button>
 
-        
-       
-
       </div>
     </main>
   </div>
+
+  <!-- BOTÃO DA REVISTA -->
+  <a href="public/index.html" class="revista-btn" target="_blank">
+    📖 Aceder à Revista Bot
+  </a>
 
   <footer>
     <p>&copy; 2026 MultiverSTB</p>
