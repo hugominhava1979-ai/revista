@@ -1,0 +1,815 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tech Noticias</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      :root {
+        --primary-color: #0d6efd;
+        --secondary-color: #164772;
+      }
+
+      .header {
+        background: linear-gradient(
+          to right,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        padding: 1rem;
+        min-height: 80px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .header::before {
+        border: solid;
+        width: 100%;
+        height: 300px;
+        position: absolute;
+        left: 0;
+        top: 80px;
+        background: linear-gradient(
+          to right,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        z-index: -1;
+      }
+
+      .header-wrapper {
+        width: 100%;
+        max-width: 70rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0 1rem;
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .search-and-filter {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .news-search-input {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        padding: 10px 12px;
+        border-radius: 6px;
+        width: 12rem;
+        outline: none;
+        color: white;
+      }
+
+      .news-search-input::placeholder {
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      .sort-button {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        padding: 10px 12px;
+        border-radius: 6px;
+        color: white;
+        cursor: pointer;
+        outline: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        transition: background 0.5s ease;
+      }
+
+      .sort-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .sort-icon {
+        font-size: 1rem;
+        transition: transform 0.5s ease;
+      }
+
+      .sort-button.active .sort-icon {
+        transform: rotate(180deg);
+      }
+
+      .apps-button {
+        background: var(--primary-color);
+        border: none;
+        padding: 10px 12px;
+        border-radius: 6px;
+        color: white;
+        cursor: pointer;
+        outline: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        transition: background 0.3s ease;
+      }
+
+      .apps-button:hover {
+        background: var(--secondary-color);
+      }
+
+      .apps-icon {
+        font-size: 0.8rem;
+        transition: transform 0.5s ease;
+      }
+
+      .apps-button.active .apps-icon {
+        transform: rotate(180deg);
+      }
+
+      .apps-menu {
+        background: rgba(0, 0, 0, 0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.5rem;
+        padding: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+        max-height: 500px;
+        opacity: 1;
+        transition:
+          opacity 0.5s ease,
+          max-height 0.5s ease;
+        overflow: hidden;
+      }
+
+      .apps-menu.hidden {
+        max-height: 0;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .apps-menu a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 1rem;
+        background: var(--primary-color);
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        transition: background 0.3s ease;
+        font-size: 0.9rem;
+        animation: fadeInUp 0.5s ease forwards;
+        opacity: 0;
+      }
+
+      .apps-menu a:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .apps-menu a:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .apps-menu a:nth-child(3) {
+        animation-delay: 0.15s;
+      }
+      .apps-menu a:nth-child(4) {
+        animation-delay: 0.2s;
+      }
+      .apps-menu a:nth-child(5) {
+        animation-delay: 0.25s;
+      }
+      .apps-menu a:nth-child(6) {
+        animation-delay: 0.3s;
+      }
+      .apps-menu a:nth-child(7) {
+        animation-delay: 0.35s;
+      }
+      .apps-menu a:nth-child(8) {
+        animation-delay: 0.4s;
+      }
+
+      .apps-menu.hidden a {
+        animation: none;
+        opacity: 0;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .apps-menu a:hover {
+        background: var(--secondary-color);
+      }
+
+      .app-icon {
+        font-size: 2rem;
+      }
+
+      .back-to-portal {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background: var(--primary-color);
+        color: white;
+        padding: 10px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+        z-index: 999;
+        transition:
+          background 0.3s ease,
+          transform 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .back-to-portal:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .content {
+        display: flex;
+        justify-content: center;
+        padding: 2rem 1rem;
+      }
+
+      .apps-container {
+        display: flex;
+        justify-content: flex-start;
+        padding: 1rem;
+        max-width: 100%;
+        width: 100%;
+        background: linear-gradient(
+          to right,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+      }
+
+      .content-wrapper {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        max-width: 70rem;
+        gap: 1.5rem;
+      }
+
+      .card {
+        background: whitesmoke;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 1rem;
+        overflow: hidden;
+        animation: fadeInCard 0.5s ease forwards;
+        opacity: 0;
+      }
+
+      @keyframes fadeInCard {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card.image-wrapper {
+        height: 250px;
+        overflow: hidden;
+      }
+
+      .card-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.3s ease-in-out;
+      }
+
+      .card-image-wrapper img:hover {
+        transform: scale(1.1);
+      }
+
+      .card-content {
+        padding: 0.8rem;
+      }
+
+      .card-date,
+      .card-description {
+        color: #7f7f7f;
+      }
+
+      .card-title a {
+        color: black;
+        text-decoration: none;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .card-title a:hover {
+        text-decoration: underline;
+      }
+
+      .card-description {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      @media screen and (max-width: 1000px) {
+        .content-wrapper {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .header-top {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .search-and-filter {
+          width: 100%;
+          justify-content: flex-end;
+        }
+
+        .apps-menu {
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        }
+      }
+
+      @media screen and (max-width: 500px) {
+        .content-wrapper {
+          grid-template-columns: repeat(1, 1fr);
+        }
+
+        .header-wrapper {
+          flex-direction: column;
+          align-items: stretch;
+          justify-content: center;
+        }
+
+        .header-top {
+          flex-direction: column;
+          align-items: stretch;
+          justify-content: center;
+        }
+
+        .search-and-filter {
+          width: 100%;
+          flex-direction: column;
+        }
+
+        .news-search-input {
+          width: 100%;
+        }
+
+        .sort-button {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .apps-container {
+          justify-content: flex-start;
+          padding: 1rem;
+        }
+
+        .apps-menu {
+          grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+          padding: 0.8rem;
+          gap: 0.3rem;
+        }
+
+        .apps-menu a {
+          padding: 0.8rem;
+          font-size: 0.8rem;
+        }
+
+        .app-icon {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="../index.html" class="back-to-portal">← MultiverSTB</a>
+    <header class="header">
+      <div class="header-wrapper">
+        <div class="header-top">
+          <h1>Tech Noticias</h1>
+          <div class="search-and-filter">
+            <input
+              type="search"
+              class="news-search-input"
+              placeholder="Pesquisar..."
+            />
+            <button class="sort-button" title="Ordenar por data">
+              <span class="sort-label">Mais Recentes</span>
+              <span class="sort-icon">▼</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="apps-container">
+      <button class="apps-button" title="Ver aplicações mais usadas">
+        <span class="apps-label">Aplicações mais usadas</span>
+        <span class="apps-icon">▼</span>
+      </button>
+      <nav class="apps-menu hidden">
+        <a
+          href="https://www.microsoft365.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="app-icon"><i class="fab fa-microsoft"></i></span>
+          <span>Microsoft 365</span>
+        </a>
+        <a
+          href="https://steampowered.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="app-icon"><i class="fab fa-steam"></i></span>
+          <span>Steam</span>
+        </a>
+        <a
+          href="https://code.visualstudio.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="app-icon"><i class="fa-solid fa-code"></i></span>
+          <span>Visual Studio Code</span>
+        </a>
+        <a
+          href="https://www.google.com/chrome"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="app-icon"><i class="fab fa-chrome"></i></span>
+          <span>Google Chrome</span>
+        </a>
+        <a
+          href="https://www.mozilla.org/firefox"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="app-icon"><i class="fab fa-firefox"></i></span>
+          <span>Firefox</span>
+        </a>
+        <a
+          href="https://www.figma.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="app-icon"><i class="fab fa-figma"></i></span>
+          <span>Figma</span>
+        </a>
+        <a
+          href="https://www.notion.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="app-icon"><i class="fa-solid fa-note-sticky"></i></span>
+          <span>Notion</span>
+        </a>
+        <a
+          href="https://www.slack.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="app-icon"><i class="fab fa-slack"></i></span>
+          <span>Slack</span>
+        </a>
+      </nav>
+    </div>
+    <div class="content">
+      <div class="content-wrapper">
+        <div class="card">
+          <div class="card-image-wrapper">
+            <img src="https://picsum.photos/200" alt="" />
+          </div>
+          <div class="card-content">
+            <span class="card-date">
+              Publicado em: <strong>2024-06-01</strong>
+            </span>
+            <h2 class="card-title">
+              <a href="#"
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Doloremque numquam, unde incidunt impedit laboriosam quia
+                pariatur sed ad sint aliquam provident mollitia, nulla dolorum
+                quae eum inventore repellat? Quis, molestiae?</a
+              >
+            </h2>
+            <p class="card-description">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis
+              aperiam dolor non soluta sed neque vel provident deleniti officia
+              asperiores minus pariatur nisi excepturi optio et hic, voluptatum
+              ullam voluptates!
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-image-wrapper">
+            <img src="https://picsum.photos/200" alt="" />
+          </div>
+          <div class="card-content">
+            <span class="card-date">
+              Published on: <strong>2024-06-01</strong>
+            </span>
+            <h2 class="card-title">
+              <a href="#"
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Doloremque numquam, unde incidunt impedit laboriosam quia
+                pariatur sed ad sint aliquam provident mollitia, nulla dolorum
+                quae eum inventore repellat? Quis, molestiae?</a
+              >
+            </h2>
+            <p class="card-description">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis
+              aperiam dolor non soluta sed neque vel provident deleniti officia
+              asperiores minus pariatur nisi excepturi optio et hic, voluptatum
+              ullam voluptates!
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-image-wrapper">
+            <img src="https://picsum.photos/200" alt="" />
+          </div>
+          <div class="card-content">
+            <span class="card-date">
+              Published on: <strong>2024-06-01</strong>
+            </span>
+            <h2 class="card-title">
+              <a href="#"
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Doloremque numquam, unde incidunt impedit laboriosam quia
+                pariatur sed ad sint aliquam provident mollitia, nulla dolorum
+                quae eum inventore repellat? Quis, molestiae?</a
+              >
+            </h2>
+            <p class="card-description">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis
+              aperiam dolor non soluta sed neque vel provident deleniti officia
+              asperiores minus pariatur nisi excepturi optio et hic, voluptatum
+              ullam voluptates!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const artigos = [
+        {
+          ID: 1,
+          publish_date: "2025-11-11",
+          img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa",
+          description:
+            "A Microsoft anuncia um investimento de 10 mil milhões de dólares em centros de dados de IA em Sines, em parceria com a Start Campus e a Nscale, marcando um dos maiores investimentos da tecnológica na Europa.",
+          title: "Microsoft Investe 10 Mil Milhões em Hub de IA em Sines",
+          url: "https://www.idealista.pt/news/financas/investimentos/2025/11/11/72548-microsoft-investe-10-mil-milhoes-de-dolares-em-data-center-de-sines",
+        },
+        {
+          ID: 2,
+          publish_date: "2025-05-06",
+          img: "https://images.unsplash.com/photo-1473968512647-3e447244af8f",
+          description:
+            "A Tekever torna-se no sétimo unicórnio português após alcançar uma avaliação superior a 1,2 mil milhões de euros, consolidando-se como líder europeu em drones autónomos e sistemas de IA para defesa e segurança.",
+          title: "Tekever Alcança Estatuto de Unicórnio com Drones de IA",
+          url: "https://eco.sapo.pt/2025/05/06/fabricante-de-drones-tekever-e-o-novo-unicornio-portugues/",
+        },
+        {
+          ID: 3,
+          publish_date: "2025-11-10",
+          img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87",
+          description:
+            "A Web Summit 2025 regressa a Lisboa de 10 a 13 de novembro, reunindo mais de 70.000 participantes de todo o mundo, incluindo líderes tecnológicos, investidores e 2.300 startups num dos maiores eventos de tecnologia da Europa.",
+          title:
+            "Web Summit 2025 Transforma Lisboa em Centro Global de Inovação",
+          url: "https://websummit.com/",
+        },
+        {
+          ID: 4,
+          publish_date: "2025-10-15",
+          img: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0",
+          description:
+            "A Start Campus e a Nscale anunciam a primeira implementação da plataforma NVIDIA GB300 na União Europeia no centro de dados SIN01 em Sines, com 12.600 GPUs de última geração para suportar infraestruturas de IA da Microsoft.",
+          title: "Maior Plataforma NVIDIA de IA da Europa Chega a Portugal",
+          url: "https://www.startcampus.pt/",
+        },
+        {
+          ID: 5,
+          publish_date: "2025-09-16",
+          img: "https://images.unsplash.com/photo-1559136555-9303baea8ebd",
+          description:
+            "Portugal regista atualmente sete unicórnios e mais de 4.700 startups ativas que geraram 2,6 mil milhões de euros em volume de negócios, consolidando-se como um dos ecossistemas mais dinâmicos da Europa.",
+          title: "Portugal Conta com Sete Unicórnios e Ecossistema Vibrante",
+          url: "https://visao.pt/atualidade/economia/2025-09-17-unicornios-a-vida-instavel-e-verdadeira-das-startups-portuguesas/",
+        },
+        {
+          ID: 6,
+          publish_date: "2025-10-23",
+          img: "https://images.unsplash.com/photo-1556761175-b413da4baf72",
+          description:
+            "A Unicorn Factory Lisboa celebra os Entrepreneurship Awards 2025 reconhecendo as melhores startups do país, tendo apoiado mais de 250 startups no último ano e criado 17 mil empregos no ecossistema tecnológico nacional.",
+          title: "Lisboa Reconhece as Melhores Startups nos Awards 2025",
+          url: "https://www.publico.pt/2025/10/31/estudiop/noticia/lisboa-capital-inovacao-reconheceu-melhores-startups-2152930",
+        },
+        {
+          ID: 7,
+          publish_date: "2025-11-06",
+          img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
+          description:
+            "O ecossistema português de startups captou 886 milhões de euros em 2024, um aumento de 55% face a 2023, com o valor das startups em Lisboa a atingir 21 mil milhões de euros, posicionando Portugal à frente de Espanha e Itália em unicórnios per capita.",
+          title: "Startups Portuguesas Captam Investimento Recorde em 2024",
+          url: "https://pt.editorialge.com/startups-lisboa/",
+        },
+        {
+          ID: 8,
+          publish_date: "2024-03-14",
+          img: "https://images.unsplash.com/photo-1497366216548-37526070297c",
+          description:
+            "Portugal coloca seis hubs de inovação entre os 125 mais inovadores da Europa, com a Startup Braga e a Unicorn Factory Lisboa no top 10 europeu, segundo ranking do Financial Times em parceria com a Statista.",
+          title: "Hubs Portugueses Entre os Mais Inovadores da Europa",
+          url: "https://eco.sapo.pt/2024/03/14/portugal-no-top-10-dos-hubs-de-startups-mais-inovadores-da-europa/",
+        },
+        {
+          ID: 9,
+          publish_date: "2025-12-10",
+          img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31",
+          description:
+            "O centro de dados SIN01 da Start Campus em Sines foi distinguido como Projeto Europeu de Data Center do Ano 2025 nos DatacenterDynamics Awards em Londres, destacando-se pela inovação e infraestrutura sustentável para IA.",
+          title: "Data Center de Sines Premiado como Melhor da Europa",
+          url: "https://www.startcampus.pt/",
+        },
+        {
+          ID: 10,
+          publish_date: "2025-11-27",
+          img: "https://images.unsplash.com/photo-1473968512647-3e447244af8f",
+          description:
+            "O unicórnio português Tekever assina contrato de 30 milhões de euros com a Agência Europeia de Segurança Marítima para fornecer sistemas de drones AR5 destinados a operações de vigilância em águas europeias durante quatro anos.",
+          title: "Tekever Assegura Contrato de 30 Milhões com Agência Europeia",
+          url: "https://observador.pt/2025/11/27/unicornio-tekever-assina-contrato-de-30-milhoes-para-vigiar-aguas-europeias/",
+        },
+      ];
+      function loadArticles(lista) {
+        const articles = Array.isArray(lista) ? lista : [];
+        initUI(articles);
+      }
+
+      function initUI(articles) {
+        renderArticles(articles);
+        setupSearch(articles);
+        setupSort(articles);
+      }
+
+      function renderArticles(articles) {
+        const wrapper = document.querySelector(".content-wrapper");
+        wrapper.innerHTML = "";
+        articles.forEach((article, index) => {
+          const card = createArticleCard(article);
+          card.style.animationDelay = `${index * 0.1}s`;
+          wrapper.appendChild(card);
+        });
+      }
+
+      function createArticleCard(article) {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+    <div class="card-image-wrapper">
+      <img src="${article.img}" alt="${article.title}" class="card-img" />
+    </div>
+    <div class="card-content">
+      <span class="card-date">
+        Publicado: <strong>${formatDate(article.publish_date)}</strong>
+      </span>
+      <h2 class="card-title">
+        <a href="${article.url || "#"}"
+           ${article.url ? 'target="_blank" rel="noopener noreferrer"' : ""}>
+          ${article.title}
+        </a>
+      </h2>
+      <p class="card-description">${article.description}</p>
+    </div>
+  `;
+
+        card.querySelector(".card-img").addEventListener("click", () => {
+          if (article.url)
+            window.open(article.url, "_blank", "noopener,noreferrer");
+        });
+
+        return card;
+      }
+
+      function formatDate(dateString) {
+        return new Date(dateString).toLocaleDateString("pt-pt", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+
+      function setupSearch(articles) {
+        const input = document.querySelector(".news-search-input");
+
+        input.addEventListener("input", (e) => {
+          const term = e.target.value.toLowerCase();
+
+          const filtered = articles.filter(
+            (a) =>
+              a.title.toLowerCase().includes(term) ||
+              a.description.toLowerCase().includes(term),
+          );
+
+          renderArticles(filtered);
+        });
+      }
+
+      function setupSort(articles) {
+        const btn = document.querySelector(".sort-button");
+        const label = document.querySelector(".sort-label");
+        const icon = document.querySelector(".sort-icon");
+
+        let newestFirst = true;
+
+        btn.addEventListener("click", () => {
+          newestFirst = !newestFirst;
+          btn.classList.toggle("active");
+
+          const sorted = [...articles].sort((a, b) =>
+            newestFirst
+              ? new Date(b.publish_date) - new Date(a.publish_date)
+              : new Date(a.publish_date) - new Date(b.publish_date),
+          );
+
+          label.textContent = newestFirst ? "Mais Recentes" : "Mais Antigos";
+
+          renderArticles(sorted);
+        });
+      }
+
+      function setupAppsMenu() {
+        const btn = document.querySelector(".apps-button");
+        const menu = document.querySelector(".apps-menu");
+
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("active");
+          menu.classList.toggle("hidden");
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadArticles(artigos);
+        setupAppsMenu();
+      });
+    </script>
+  </body>
+</html>

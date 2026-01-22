@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sado Downtown — Um guia para conhecer Setúbal</title>
+  <style>
+    :root{
+      --green:#184A2C;          /* Dark green for letters */
+      --green-weak:#2A6B43;     /* Slightly lighter green for borders/accents */
+      --soft:#f7faf8;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #d8e2df;
+      color: var(--green);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      text-align: center; /* center text by default */
+    }
+
+    .container{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem;
+    }
+
+    /* ===== Header with banner ABOVE logo ===== */
+    header{
+      display:flex;
+      flex-direction:column;       /* vertical stack: banner → logo → tagline → menu */
+      align-items:center;
+      justify-content:center;
+      gap: 0.6rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.75rem;
+    }
+
+    /* Banner fixo */
+    .ad-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #f8f8f8;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+      z-index: 1000;
+    }
+
+    .ad-banner img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Logo (size unchanged) */
+    .logo{
+      width: auto;
+      height: 300px;
+      display: block;
+      margin: 0 auto;
+    }
+    .tagline{
+      margin: 0.1rem 0 0.1rem;
+      font-size: 1.05rem;
+      letter-spacing: 0.2px;
+    }
+
+    /* Filter tabs (no submenus) */
+    #filters{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:0;                  /* buttons close together */
+      flex-wrap:wrap;
+      margin:0.2rem 0;
+    }
+
+    #filters .tab{
+      appearance:none;
+      background:transparent;
+      color:var(--green);
+      border:none;
+      padding:0.55rem 0.9rem; /* compact, button-like */
+      margin:0;
+      font-size:1.3em;
+      font-weight:bolder;
+      cursor:pointer;
+      border-radius:0;        /* flush edges */
+    }
+
+    #filters .tab:hover,
+    #filters .tab:focus{
+      background:#eef6f1;
+      outline:none;
+    }
+
+    /* Active tab */
+    #filters .tab[aria-pressed="true"]{
+      text-decoration:underline;
+    }
+
+    /* Setúbal link styled like a tab */
+    #filters .tab-link{
+      display:inline-block;
+      color:var(--green);
+      text-decoration:none;
+      padding:0.55rem 0.9rem;
+      font-size:1.3em;
+      font-weight:bolder;
+    }
+    #filters .tab-link:hover,
+    #filters .tab-link:focus{
+      background:#eef6f1;
+      outline:none;
+    }
+
+    .nav-link{
+      display:inline-block;
+      padding: 0.5rem 0.9rem;
+      border: 1px solid var(--green-weak);
+      border-radius: 8px;
+      color: var(--green);
+      text-decoration:none;
+      font-weight:600;
+      background:#fff;
+    }
+    .nav-link:hover,
+    .nav-link:focus{ background:#eef6f1; outline:none; }
+
+    /* Articles grid */
+    .articles{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 per row on desktop */
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 900px){ .articles{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px){ .articles{ grid-template-columns: 1fr; } }
+
+    .card{
+      border: 1px solid var(--green-weak);
+      border-radius: 12px;
+      padding: 0.75rem;
+      background: #fff;
+      display:flex;
+      flex-direction: column;
+      align-items:center;
+      gap: 0.5rem;
+      transition: box-shadow .2s ease-in-out, transform .2s ease-in-out;
+    }
+    .card:hover{ box-shadow: 0 8px 24px rgb(0 0 0 / 10%); transform: translateY(-1px); }
+    .card img{
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #eef2ef;
+    }
+    .card h3{ margin: 0.25rem 0 0.25rem; font-size: 1.05rem; }
+    .card p{ margin: 0; font-size: 0.95rem; line-height: 1.35rem; }
+
+    footer{ margin: 2rem 0 1rem; font-size: 0.9rem; opacity: 0.8; }
+    
+    /* ===== Map Popup ===== */
+    .popup-overlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      z-index: 2147483647;      /* above the fixed banner */
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .popup-overlay.active{
+      opacity: 1;
+      pointer-events: auto;
+      display: flex;
+      visibility: visible;
+    }
+    .popup-content{
+      background: #fff;
+      padding: 0.5rem 0.75rem 0.75rem;
+      border-radius: 12px;
+      max-width: 95vw;
+      max-height: 95vh;
+      box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
+      position: relative;
+    }
+    .popup-content img{
+      max-width: 100%;
+      max-height: 85vh;
+      display: block;
+      border-radius: 8px;
+    }
+    .popup-close{
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      background: transparent;
+      border: none;
+      color: #333;
+      font-size: 1.75rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .popup-close:hover{ color: #000; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <!-- Banner FIRST (above logo) -->
+      <div class="ad-banner">
+        <img src="https://via.placeholder.com/728x90?text=Publicidade" alt="Banner Publicitário">
+      </div>
+
+      <!-- Logo (keep file in same folder) -->
+      <img src="https://i.postimg.cc/nrNZcp0f/Sado_Downtown_Wide.png" class="logo" alt="Sado Downtown — logo" />
+
+      <!-- Navigation without submenus -->
+      <nav aria-label="Menu principal" id="filters">
+        <button class="tab" data-filter="all" aria-pressed="true">Ver tudo</button>
+        <button class="tab" data-filter="cultura" aria-pressed="false">Cultura</button>
+        <button class="tab" data-filter="ocasioes" aria-pressed="false">Ocasiões</button>
+        <a class="tab-link" href="#" id="open-map" title="Mapa de Setúbal">Setúbal</a>
+        <button class="tab"><a href="multiverSTB.html">Voltar a MultiverSTB</a></button>
+      </nav>
+    </header>
+    
+    <!-- Map popup overlay -->
+    <div id="map-popup" class="popup-overlay" aria-hidden="true" role="dialog" aria-label="Mapa de Setúbal">
+      <div class="popup-content" role="document">
+        <button class="popup-close" aria-label="Fechar mapa" title="Fechar">&times;</button>
+        <img src="https://i.postimg.cc/D0RJkVG4/mapa_Setubal.png" alt="Mapa de Setúbal" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Articles: 6 spaces, 3 per row on desktop -->
+    <main>
+      <section class="articles" aria-label="Artigos">
+        <!-- Card 1 -->
+        <article class="card" data-cat="cultura">
+          <img src="https://i.postimg.cc/vTCMHbXN/vemba.jpg">
+          <h3>Gilmário Vemba no Fórum Luísa Todi</h3>
+          <p>O humorista angolano visita Setúbal a 4 de Fevereiro. <a href="#artigo">Saiba mais</a>.</p>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card" data-cat="cultura">
+          <img src="https://i.postimg.cc/fy1ZTD5K/maiagonzalez.jpg">
+          <h3>Exposição Maria Teresa Maia Gonzalez</h3>
+          <p>As obras mais importantes da escritora, até ao fim do mês na Biblioteca Municipal. <a href="#artigo">Saiba mais</a>.</p>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card" data-cat="ocasioes">
+          <img src="https://i.postimg.cc/ZnXZK4jf/londrina.png">
+          <h3>Taberna Londrina já está em Setúbal</h3>
+          <p>A francesinha tem um novo espaço na Baixa de Setúbal. <a href="#artigo">Saiba mais</a>.</p>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="card" data-cat="cultura">
+          <img src="https://i.postimg.cc/0jhx2PZX/orqjazz.jpg">
+          <h3>Círculo Jazz Fest faz 15 anos</h3>
+          <p>O grande evento de jazz anima Setúbal a partir de 6 de Fevereiro, em várias salas. <a href="#artigo">Saiba mais</a>.</p>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="card" data-cat="ocasioes">
+          <img src="https://i.postimg.cc/vTCMHbX0/capri.jpg">
+          <h3>Pastelaria Capri com mais espaço</h3>
+          <p>A tradicional casa expandiu a nova morada, ocupando também o primeiro andar. <a href="#artigo">Saiba mais</a>.</p>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="card" data-cat="cultura">
+          <img src="https://i.postimg.cc/sxbyDsKw/dancagravata.jpg">
+          <h3>Danças do Oriente no Palco Aberto</h3>
+          <p>A União Setubalense organiza nova workshop de dança com Andreia Gravata. <a href="#artigo">Saiba mais</a>.</p>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="year"></span> Sado Downtown
+    </footer>
+  </div>
+
+  <!-- (Optional) Small JS for current year; menu uses <details> (no JS needed) -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    (function(){
+      const tabs  = document.querySelectorAll('#filters .tab');
+      const cards = document.querySelectorAll('.articles .card');
+      function applyFilter(filter){
+        const wantAll = (filter === 'all');
+        cards.forEach(card => {
+          if (wantAll) {
+            card.style.display = ''; // show everything
+            return;
+          }
+          const cats = (card.dataset.cat || '').toLowerCase().split(/\s+/);
+          const show = cats.includes(filter);
+          card.style.display = show ? '' : 'none';
+        });
+      }
+
+      // Default: Ver tudo
+      applyFilter('all');
+      tabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabs.forEach(b => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
+          applyFilter(btn.dataset.filter);
+        });
+      });
+    })();
+    
+    /* === Map popup open/close === */
+    (function(){
+      const openBtn = document.getElementById('open-map');
+      const popup   = document.getElementById('map-popup');
+      if (!openBtn || !popup) return;
+
+      const closeBtn = popup.querySelector('.popup-close');
+
+      function openPopup(e){
+        if (e) e.preventDefault();
+        popup.classList.add('active');
+        popup.setAttribute('aria-hidden', 'false');
+      }
+      function closePopup(){
+        popup.classList.remove('active');
+        popup.setAttribute('aria-hidden', 'true');
+      }
+
+      openBtn.addEventListener('click', openPopup);
+      if (closeBtn) closeBtn.addEventListener('click', (e)=>{ e.preventDefault(); closePopup(); });
+
+      // Click backdrop to close
+      popup.addEventListener('click', (e)=>{ if (e.target === popup) closePopup(); });
+      // ESC to close
+      document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closePopup(); });
+    })();
+  </script>
+
+</body>
+</html>

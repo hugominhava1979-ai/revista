@@ -1,0 +1,310 @@
+
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Horta do TiAlvaro</title>
+  <style>
+    :root{
+      --bg:#f6faf5;
+      --card:#ffffff;
+      --brand:lime;
+      --brand-2:#f2b705;
+      --text:#0f172a;
+      --muted:#64748b;
+      --border:#e5e7eb;
+      --danger:#b91c1c;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+      background:var(--bg); color:var(--text);
+    }
+
+    /* ====== CABEÇALHO COM LOGÓTIPO ====== */
+    header{
+      padding:18px 16px;
+      text-align:center;
+      background:linear-gradient(45deg,limegreen,white, #075a22);
+    }
+    .brand-logo{
+      display:block;
+      margin-inline:auto;
+      width: min(420px, 85vw);
+      max-height: 140px;          /* limita a altura do logo */
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,.18));
+    }
+    /* Removemos texto do header, por isso garantimos zero margens */
+    header h1, header p { display:none; }
+
+    .wrap{max-width:1200px; margin:0 auto; padding:20px 16px 80px;}
+    .grid{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+    }
+    @media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr);} }
+    @media (max-width:600px){ .grid{grid-template-columns:1fr;} }
+
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden;
+      display:flex; flex-direction:column; transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .thumb{width:100%; aspect-ratio:4/3; object-fit:cover; background:#f1f5f9}
+    .content{padding:14px 14px 12px;}
+    .title{font-weight:700; font-size:1.05rem; margin:0 0 6px;}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 10px}
+    .tag{
+      background:#e8f5e9; color:#1b5e20; border:1px solid #c8e6c9; padding:2px 8px; border-radius:999px; font-size:.8rem;
+    }
+    .price{
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+      padding:10px 12px; background:#f8fafc; border:1px dashed var(--border); border-radius:10px;
+      font-weight:600; margin-bottom:10px;
+    }
+    .muted{color:var(--muted); font-weight:500}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:10px 12px; border-radius:10px; border:1px solid #14532d;
+      background:linear-gradient(#2e7d32,#1f6b2d); color:#fff; font-weight:700; cursor:pointer;
+    }
+    .btn:hover{filter:brightness(1.05)}
+    .qtybox{display:flex; gap:6px; align-items:center; margin-top:8px}
+    .qtybox input{
+      width:70px; padding:8px; border:1px solid var(--border); border-radius:8px;
+    }
+
+    /* Carrinho flutuante */
+    .cart{
+      position:fixed; right:16px; bottom:16px; width:min(380px,92vw);
+      background:#ffffff; border:1px solid var(--border); border-radius:14px;
+      box-shadow:0 14px 40px rgba(0,0,0,.16); overflow:hidden;
+    }
+    .cart header{
+      background:#14532d; color:#fff; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;
+    }
+    .cart header h3{margin:0; font-size:1rem}
+    .cart .body{max-height:40vh; overflow:auto; padding:10px 12px; background:#f9fafb}
+    .cart .line{display:grid; grid-template-columns:1fr auto auto auto; gap:8px; align-items:center; padding:8px 0; border-bottom:1px solid #e5e7eb}
+    .cart .line strong{white-space:nowrap}
+    .cart .totals{padding:12px 14px; background:#fff; display:flex; justify-content:space-between; align-items:center; gap:10px; border-top:1px solid var(--border)}
+    .cart .actions{display:flex; gap:8px}
+    .btn-clear{background:#fff; color:#b91c1c; border:1px solid #b91c1c}
+    .btn-check{background:linear-gradient(#f59e0b,#d97706); border:1px solid #b45309}
+    .btn-sm{padding:6px 10px; font-weight:700}
+    .rm{background:transparent; border:1px solid #e11d48; color:#e11d48; border-radius:8px; padding:4px 8px; cursor:pointer}
+    .note{font-size:.85rem; color:var(--muted); text-align:center; margin-top:8px}
+  </style>
+</head>
+<body>
+<div class="ad-banner">
+    <img src="https:;//via.placeholder.com/728x90?text=Publicidade" alt="Banner Pubicitário">
+  </div>
+<!-- Cabeçalho apenas com o LOGÓTIPO -->
+<header aria-label="Horta do TiAlvaro">
+
+  <!-- substitui o src se usares outro nome/ficheiro -->
+  <img height="190px" src="https://i.imgur.com/4ocGq62.png">
+ 
+</header>
+
+<div class="wrap">
+  <div id="grid" class="grid" aria-live="polite"></div>
+  <p class="note"></p>
+</div>
+
+<!-- Carrinho -->
+<aside class="cart" aria-live="polite">
+  <header>
+    <h3>🧺 Carrinho</h3>
+    <div><strong id="cart-count">0</strong> itens</div>
+  </header>
+  <div class="body" id="cart-body"></div>
+  <div class="totals">
+    <div><strong>Total:</strong> <span id="cart-total">€0,00</span></div>
+    <div class="actions">
+      <button class="btn btn-sm btn-clear" id="btn-clear">Limpar</button>
+      <button class="btn btn-sm btn-check" id="btn-checkout">Finalizar</button>
+    </div>
+  </div>
+</aside>
+
+<script>
+  // ==========================
+  // DADOS DO CATÁLOGO
+  // ==========================
+  const produtos = [  
+    { nome: "Mel 1 kg", categoria: "Mel", precoKg: 9.50, pesoKg: 1,
+        img: "https://imagens.reformaagraria.pt/loja-agricola/produtos/grandes/1307-2437-1589909983.jpg" },
+
+      { nome: "Mel 0,5 kg", categoria: "Mel", precoKg: 11.00, pesoKg: 0.5,
+        img: "https://i.imgur.com/ddZ79d8.jpeg" }, // troque para o seu caminho
+
+      { nome: "Mel favo (caixa)", categoria: "Mel", precoKg: 13.00, pesoKg: null,
+        img: "https://meldocastelo.pt/wp-content/uploads/2023/12/Mel-Favos-200g-2-300x300.jpg" },
+
+      { nome: "Cebolas", categoria: "Hortícolas", precoKg: 1.00, pesoKg: 1,
+        img: "https://www.publicdomainpictures.net/pictures/30000/nahled/onions-isolated.jpg" },
+
+      { nome: "Batata branca", categoria: "Hortícolas", precoKg: 1.25, pesoKg: 1,
+        img: "https://image.shutterstock.com/image-photo/young-potatoes-fresh-on-wooden-250nw-2491025167.jpg" },
+
+      { nome: "Batata doce", categoria: "Hortícolas", precoKg: 1.50, pesoKg: 1,
+        img: "https://i.imgur.com/kxVT5Uw.jpeg" },
+
+      { nome: "Brócolos", categoria: "Hortícolas", precoKg: 2.70, pesoKg: 1,
+        img: "https://i.imgur.com/QqyUm0I.jpeg" },
+
+      { nome: "Couve portuguesa", categoria: "Hortícolas", precoKg: 1.50, pesoKg: 1,
+        img: "https://i.imgur.com/CI7bLKi.jpeg" },
+
+      { nome: "Grelos", categoria: "Hortícolas", precoKg: 2.00, pesoKg: 1,
+        img: "https://i.imgur.com/bKP55PS.jpeg" },
+
+      { nome: "Caldo verde", categoria: "Hortícolas", precoKg: 2.40, pesoKg: 1,
+        img: "https://carrefourbrfood.vtexassets.com/arquivos/ids/12965998/couve-manteiga-picado-carrefour-300g-1.jpg?v=637479773574200000" },
+
+      { nome: "Espinafre", categoria: "Hortícolas", precoKg: 3.20, pesoKg: 1,
+        img: "https://blog.plantei.com.br/wp-content/uploads/2015/07/espinafre.jpg" },
+
+      { nome: "Nabiça", categoria: "Hortícolas", precoKg: 1.90, pesoKg: 1,
+        img: "https://greenhouse.com.pt/265-large_default/couve-coracao-de-boi.jpg" },
+
+      { nome: "Laranja", categoria: "Fruta", precoKg: 1.40, pesoKg: 1,
+        img: "https://st.depositphotos.com/1642482/2042/i/450/depositphotos_20428181-stock-photo-object.jpg" },
+
+      { nome: "Tangerinas", categoria: "Fruta", precoKg: 1.80, pesoKg: 1,
+        img: "https://tse3.mm.bing.net/th/id/OIP.8HxnkvE3ZDS5CzyYH-n3fwHaFf?rs=1&pid=ImgDetMain&o=7&rm=3" },
+
+      /* { nome: "Figo", categoria: "Fruta", precoKg: 2.00, pesoKg: 1,
+        img: "https://s3-sa-east-1.amazonaws.com/loja2/aaacefde41ca94ac691b37ef547aed61.jpg" }, */
+    ];
+
+  // -------- utilidades --------
+  const eur = v => v.toLocaleString('pt-PT',{style:'currency',currency:'EUR'});
+  const cart = []; // {nome, precoKg, qtyKg}
+  const grid = document.getElementById("grid");
+  const cartBody = document.getElementById("cart-body");
+  const cartCount = document.getElementById("cart-count");
+  const cartTotal = document.getElementById("cart-total");
+
+  function renderCatalog(){
+    grid.innerHTML = "";
+    produtos.forEach(p => {
+      const precoUnidade = (p.pesoKg ? +(p.precoKg * p.pesoKg).toFixed(2) : null);
+
+      const card = document.createElement("article");
+      card.className = "card";
+      card.innerHTML = `
+       
+<img
+          class="thumb"
+          src="${p.img}"
+          alt="${p.nome}"
+          loading="lazy"
+          decoding="async"
+          onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&uot;>Imagem indisponível</text></svg>`)}';"
+        >
+
+        <div class="content">
+          <h3 class="title">${p.nome}</h3>
+          <div class="meta">
+            <span class="tag">${p.categoria}</span>
+            <span class="tag">€/${"kg"}</span>
+            ${p.pesoKg ? `<span class="tag">${p.pesoKg.toString().replace('.',',')} kg</span>` : ``}
+          </div>
+
+          <div class="price">
+            <div>Preço/kg: <strong>${eur(p.precoKg)}</strong></div>
+            <div class="muted">${p.pesoKg ? `Preço/Unid.: <strong>${eur(precoUnidade)}</strong>` : `—`}</div>
+          </div>
+
+          <div class="qtybox">
+            <label for="q-${slug(p.nome)}" class="muted">Qtd (kg):</label>
+            <input id="q-${slug(p.nome)}" type="number" min="0.25" step="0.25" value="${p.pesoKg || 1}">
+            <button class="btn" data-buy="${p.nome}">🛒 Comprar</button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // listeners de compra
+    grid.querySelectorAll("button[data-buy]").forEach(btn=>{
+      btn.addEventListener("click", e=>{
+        const nome = e.currentTarget.getAttribute("data-buy");
+        const prod = produtos.find(x=>x.nome===nome);
+        const input = document.getElementById(`q-${slug(nome)}`);
+        const qty = Math.max(0.01, parseFloat(input.value||0));
+        addToCart(prod, qty);
+      });
+    });
+  }
+
+  function slug(s){
+    return s.toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu,"")
+            .replace(/[^a-z0-9]+/g,"-");
+  }
+
+  function addToCart(prod, qtyKg){
+    const line = cart.find(i=>i.nome===prod.nome);
+    if(line){ line.qtyKg = +(line.qtyKg + qtyKg).toFixed(2); }
+    else{ cart.push({ nome: prod.nome, precoKg: prod.precoKg, qtyKg: +qtyKg.toFixed(2) }); }
+    renderCart();
+  }
+
+  function removeFromCart(nome){
+    const idx = cart.findIndex(i=>i.nome===nome);
+    if(idx>-1){ cart.splice(idx,1); renderCart(); }
+  }
+
+  function clearCart(){
+    cart.length = 0; renderCart();
+  }
+
+  function renderCart(){
+    cartBody.innerHTML = "";
+    let total = 0;
+    cart.forEach(item=>{
+      const sub = +(item.precoKg * item.qtyKg).toFixed(2);
+      total += sub;
+      const row = document.createElement("div");
+      row.className = "line";
+      row.innerHTML = `
+        <div>${item.nome}</div>
+        <div><strong>${item.qtyKg.toString().replace('.',',')} kg</strong></div>
+        <div>${eur(item.precoKg)}/kg</div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <strong>${eur(sub)}</strong>
+          <button class="rm" aria-label="Remover" data-rm="${item.nome}">✖</button>
+        </div>
+      `;
+      cartBody.appendChild(row);
+    });
+    cartCount.textContent = cart.reduce((s,i)=>s+i.qtyKg,0).toLocaleString('pt-PT');
+    cartTotal.textContent = eur(+total.toFixed(2));
+
+    // remover item
+    cartBody.querySelectorAll("button[data-rm]").forEach(b=>{
+      b.addEventListener("click", e=>{
+        removeFromCart(e.currentTarget.getAttribute("data-rm"));
+      });
+    });
+  }
+
+  // Botões do carrinho
+  document.getElementById("btn-clear").addEventListener("click", clearCart);
+  document.getElementById("btn-checkout").addEventListener("click", ()=>{
+    if(!cart.length){ alert("O carrinho está vazio."); return; }
+    const linhas = cart.map(i=>`${i.nome} — ${i.qtyKg} kg — ${eur(i.precoKg)} /kg`).join("\n");
+    alert("Resumo do pedido:\n\n"+linhas+"\n\nTotal: "+document.getElementById("cart-total").textContent+"\n\n(Implementa aqui o teu checkout: formulário, WhatsApp, e-mail, MBWay, etc.)");
+  });
+
+  renderCatalog();
+  renderCart();
+</script>
+</body>
+</html>
