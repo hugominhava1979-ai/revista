@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peças Auto - Loja de Peças de Automóvel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+   
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+   
+    header {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+   
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+   
+    header p {
+      font-size: 1.1em;
+      color: #ccc;
+    }
+   
+    nav {
+      background-color: #333;
+      padding: 10px 0;
+      text-align: center;
+    }
+   
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1em;
+    }
+   
+    nav a:hover {
+      color: #ff6b00;
+    }
+   
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+   
+    .pecas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+   
+    .peca-card {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+   
+    .peca-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+   
+    .peca-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+   
+    .peca-card h3 {
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+   
+    .peca-card p {
+      color: #666;
+      margin-bottom: 15px;
+      font-size: 0.95em;
+    }
+   
+    .preco {
+      font-size: 1.5em;
+      color: #ff6b00;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+   
+    button {
+      background-color: #ff6b00;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s;
+    }
+   
+    button:hover {
+      background-color: #e55b00;
+    }
+   
+    footer {
+      background-color: #1a1a1a;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🚗 Peças Auto</h1>
+    <p>Sua loja de peças de automóvel de qualidade</p>
+  </header>
+ 
+  <nav>
+    <a href="#motores">Motores</a>
+    <a href="#travoes">Travões</a>
+    <a href="#contactos">Contactos</a>
+    <a href="multiverstb.html">Voltar a página inicial</a>
+  </nav>
+ 
+  <div class="container">
+    <section id="motores">
+      <h2 style="margin-bottom: 20px;">Peças do Motor</h2>
+      <div class="pecas-grid">
+        <div class="peca-card">
+          <img src="https://i0.wp.com/meugodrive.wpcomstaging.com/wp-content/uploads/2023/06/FOTO-DE-CAPA-Imagem-mostra-diferentes-tipos-de-filtro-de-ar-automotivo-Foto-de-Freepik.webp?fit=800%2C400&ssl=1" alt="Filtro de Ar">
+          <h3>Filtro de Ar</h3>
+          <p>Filtro de ar de qualidade para melhor desempenho do motor</p>
+          <div class="preco">15.99 €</div>
+          <button>Adicionar ao Carrinho</button>
+        </div>
+       
+        <div class="peca-card">
+          <img src="https://www.tecfil.com.br/wp-content/uploads/2020/06/Tecfil_blog_GALERIA_0000s_0004_G5-1024x683.jpg" alt="Filtro de Óleo">
+          <h3>Filtro de Óleo</h3>
+          <p>Filtro de óleo premium para protecção do motor</p>
+          <div class="preco">12.50 €</div>
+          <button>Adicionar ao Carrinho</button>
+        </div>
+       
+        <div class="peca-card">
+          <img src="https://blog.jocar.com.br/wp-content/uploads/2019/05/velas-de-ignicao-composicao-1465410040459.jpg" alt="Vela de Ignição">
+          <h3>Vela de Ignição</h3>
+          <p>Velas de ignição de longa duração</p>
+          <div class="preco">8.75 €</div>
+          <button>Adicionar ao Carrinho</button>
+        </div>
+      </div>
+    </section>
+   
+    <section id="travoes" style="margin-top: 40px;">
+      <h2 style="margin-bottom: 20px;">Sistema de Travões</h2>
+      <div class="pecas-grid">
+        <div class="peca-card">
+          <img src="https://cdn.club-magazin.autodoc.de/uploads/sites/14/2020/11/bosch-pastilhas-de-travao.jpg" alt="Pastilhas">
+          <h3>Pastilhas de Travão</h3>
+          <p>Pastilhas de travão de baixo ruído</p>
+          <div class="preco">35.00 €</div>
+          <button>Adicionar ao Carrinho</button>
+        </div>
+       
+        <div class="peca-card">
+          <img src="https://www.razaoautomovel.com/wp-content/uploads/2018/07/DISCOS-PERFURADOS-e1476116113269_925x520_acf_cropped.jpg" alt="Discos">
+          <h3>Discos de Travão</h3>
+          <p>Discos de travão resistentes e duráveis</p>
+          <div class="preco">45.50 €</div>
+          <button>Adicionar ao Carrinho</button>
+        </div>
+       
+        <div class="peca-card">
+          <img src="https://cdn.autodoc.de/uploads/info_section/article/193/1663237986_7755_2eaefb51ffbd02ff5ba36e7725cecba3.jpeg" alt="Líquido">
+          <h3>Líquido de Travão</h3>
+          <p>Líquido de travão de qualidade DOT 4</p>
+          <div class="preco">9.99 €</div>
+          <button>Adicionar ao Carrinho</button>
+        </div>
+      </div>
+    </section>
+   
+    <section id="contactos" style="margin-top: 40px; text-align: center; background-color: white; padding: 30px; border-radius: 8px;">
+      <h2>Contacte-nos</h2>
+      <p style="margin-top: 20px;">
+        <strong>Telefone:</strong> +351 21 123 4567<br>
+        <strong>Email:</strong> info@pecasauto.com<br>
+        <strong>Endereço:</strong> Rua Principal, 123 - Lisboa
+      </p>
+    </section>
+  </div>
+ 
+  <footer>
+    <p>&copy; 2024 Peças Auto. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>
