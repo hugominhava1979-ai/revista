@@ -1,0 +1,175 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #2d2d44);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cabeçalho */
+header {
+  text-align: center;
+  padding: 25px;
+  background: #111;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+header h1 {
+  font-size: 2.4rem;
+  margin: 0;
+}
+
+/* Mascote */
+#mascote {
+  width: 140px;
+  margin: 20px auto;
+  animation: flutuar 3s ease-in-out infinite;
+}
+
+@keyframes flutuar {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.robo-cabeca {
+  width: 120px;
+  height: 100px;
+  background: #fff;
+  border-radius: 20px;
+  margin: auto;
+  position: relative;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.olho {
+  width: 22px;
+  height: 22px;
+  background: #00aaff;
+  border-radius: 50%;
+  position: absolute;
+  top: 30px;
+  animation: piscar 4s infinite;
+}
+
+@keyframes piscar {
+  0%,
+  90% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.olho-esq {
+  left: 25px;
+}
+.olho-dir {
+  right: 25px;
+}
+
+.boca {
+  width: 50px;
+  height: 10px;
+  background: #00aaff;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 20px;
+  left: 35px;
+  transition: 0.3s;
+}
+
+.robo-corpo {
+  width: 80px;
+  height: 80px;
+  background: #fff;
+  border-radius: 20px;
+  margin: 10px auto 0;
+}
+
+/* Chat container */
+#chat-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: #222;
+  border-radius: 12px;
+  padding: 20px;
+  height: 65vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.message {
+  max-width: 75%;
+  padding: 12px 16px;
+  margin-bottom: 15px;
+  border-radius: 14px;
+  animation: aparecer 0.3s ease-out;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.user {
+  background: #007bff;
+  margin-left: auto;
+  border-bottom-right-radius: 0;
+}
+
+.message.bot {
+  background: #444;
+  border-bottom-left-radius: 0;
+}
+
+/* Input */
+#input-area {
+  display: flex;
+  margin-top: 10px;
+}
+
+#user-input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px 0 0 8px;
+  border: none;
+  font-size: 16px;
+}
+
+#send-btn {
+  padding: 0 20px;
+  background: #00aaff;
+  border: none;
+  color: #fff;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#send-btn:hover {
+  background: #0088cc;
+}

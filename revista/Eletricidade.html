@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loja de Produtos de Eletricidade</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* HEADER */
+      header {
+        width: 100%;
+        padding: 20px;
+        background: #222;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo {
+        width: 60px;
+        height: 60px;
+        background: #555;
+        border-radius: 8px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 32px;
+      }
+
+      .home-btn {
+        padding: 8px 15px;
+        background: #ffcc00;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+
+      .cart-icon {
+        cursor: pointer;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .cart-icon span {
+        background: #ffcc00;
+        color: #000;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 14px;
+      }
+
+      /* GRID 3x3x3x3 */
+      .products {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: 90%;
+        max-width: 1100px;
+        margin: 30px auto;
+      }
+
+      .product {
+        background-size: cover;
+        background-position: center;
+        height: 260px;
+        border-radius: 10px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 15px;
+        color: white;
+        text-shadow: 1px 1px 3px black;
+      }
+
+      .product-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.7),
+          rgba(0, 0, 0, 0.1)
+        );
+      }
+
+      .product-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .product button {
+        padding: 8px;
+        background: #00aaff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        width: 100%;
+      }
+
+      /* CARRINHO */
+      .cart {
+        position: fixed;
+        right: 20px;
+        top: 80px;
+        width: 320px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #0003;
+        z-index: 10;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .cart ul {
+        list-style: none;
+        padding: 0;
+        max-height: 250px;
+        overflow-y: auto;
+      }
+
+      .cart li {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .cart li button {
+        padding: 3px 7px;
+        background: #dc3545;
+        border: none;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .checkout-btn {
+        width: 100%;
+        padding: 10px;
+        background: #28a745;
+        border: none;
+        color: white;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="header-left">
+        <img
+          src="https://i.imgur.com/QNdpbpg.png"
+          alt="Logo EletricSet"
+          class="logo"
+        />
+        <h1>EletricSet</h1>
+      </div>
+
+      <button class="home-btn" onclick="location.href='multiverstb.html'">
+        Voltar à Página Inicial
+      </button>
+
+      <div class="cart-icon" onclick="toggleCart()">
+        🛒 <span id="cart-count">0</span>
+      </div>
+    </header>
+
+    <main>
+      <div id="product-list" class="products"></div>
+    </main>
+
+    <div id="cart" class="cart hidden">
+      <h2>Carrinho</h2>
+      <ul id="cart-items"></ul>
+      <p>
+        <strong>Total: €<span id="cart-total">0.00</span></strong>
+      </p>
+      <button class="checkout-btn" onclick="finalizarPagamento()">
+        Finalizar Pagamento
+      </button>
+    </div>
+
+    <script>
+      const products = [
+        {
+          id: 1,
+          name: 'Tomada Dupla',
+          price: 6.5,
+          img: 'https://media.adeo.com/media/536590/media.png?width=3000&height=3000&format=jpg&quality=80&fit=bounds',
+        },
+        {
+          id: 2,
+          name: 'Interruptor Simples',
+          price: 3.2,
+          img: 'https://1230400914.rsc.cdn77.org/temp/1628873752_239f5f701f2df5f47b1a142027fee27c.jpg',
+        },
+        {
+          id: 3,
+          name: 'Lâmpada LED 10W',
+          price: 5.9,
+          img: 'https://www.ledsiluminacao.pt/wp-content/uploads/2024/02/lm7036_65e604b9dde0d-800x8001-1.jpg',
+        },
+        {
+          id: 4,
+          name: 'Extensão 3 Tomadas',
+          price: 8.75,
+          img: 'https://static.staples.pt/resources/medias/shop/products/shop-732894--1.jpg',
+        },
+        {
+          id: 5,
+          name: 'Fita LED 5m',
+          price: 14.3,
+          img: 'https://smartify.pt/cdn/shop/files/smartwifismartifyfitaledsonoff.webp?v=1692094414',
+        },
+        {
+          id: 6,
+          name: 'Disjuntor 16A',
+          price: 6.4,
+          img: 'https://www.bricodepot.pt/media/catalog/product/cache/181b0992bdbb42961a53e6d1e13ca178/0/4/04da325416a30cfc.jpg',
+        },
+        {
+          id: 7,
+          name: 'Tomada Exterior IP44',
+          price: 9.1,
+          img: 'https://www.maxmat.pt/temp/JPG_8db3155276c89aa32b2069e184721234.png',
+        },
+        {
+          id: 8,
+          name: 'Detetor de Presença',
+          price: 18.5,
+          img: 'https://www.esylux.pt/xomasset/de6b9998-7dee-41d8-bb33-a2b5eb21c1a3/preview?type=1626861506&cHash=cca0541a1a195ee80ab566cfbe7962ac',
+        },
+        {
+          id: 9,
+          name: 'Campainha Sem Fios',
+          price: 23.99,
+          img: 'https://media.adeo.com/media/537689/media.png?width=3000&height=3000&format=jpg&quality=80&fit=bounds',
+        },
+        {
+          id: 10,
+          name: 'Cabo Elétrico 3x1.5mm',
+          price: 0.9,
+          img: 'https://www.cofan.es/images/content/1024x682/web_51003015_02.jpg',
+        },
+        {
+          id: 11,
+          name: 'Bloco de Ligação',
+          price: 18.1,
+          img: 'https://cdn.awsli.com.br/1821/1821377/produto/126354654/d8ba97d724.jpg',
+        },
+        {
+          id: 12,
+          name: 'Projetor LED Exterior 30W',
+          price: 24.8,
+          img: 'https://www.worten.pt/i/4b543469445406e2cbfd2780acfd2c2bb97a0c5a',
+        },
+      ];
+
+      let cart = [];
+
+      function loadProducts() {
+        const list = document.getElementById('product-list');
+        list.innerHTML = '';
+
+        products.forEach((p) => {
+          const div = document.createElement('div');
+          div.className = 'product';
+          div.style.backgroundImage = `url(${p.img})`;
+
+          div.innerHTML = `
+                <div class="product-overlay"></div>
+                <div class="product-content">
+                    <h3>${p.name}</h3>
+                    <p>€${p.price.toFixed(2)}</p>
+                    <button onclick="addToCart(${
+                      p.id
+                    })">Adicionar ao Carrinho</button>
+                </div>
+            `;
+
+          list.appendChild(div);
+        });
+      }
+
+      function addToCart(id) {
+        const product = products.find((p) => p.id === id);
+        cart.push(product);
+        updateCart();
+      }
+
+      function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCart();
+      }
+
+      function updateCart() {
+        document.getElementById('cart-count').textContent = cart.length;
+
+        const items = document.getElementById('cart-items');
+        items.innerHTML = '';
+
+        let total = 0;
+
+        cart.forEach((item, index) => {
+          total += item.price;
+          items.innerHTML += `
+                <li>
+                    ${item.name} - €${item.price.toFixed(2)}
+                    <button onclick="removeFromCart(${index})">X</button>
+                </li>
+            `;
+        });
+
+        document.getElementById('cart-total').textContent = total.toFixed(2);
+      }
+
+      function toggleCart() {
+        document.getElementById('cart').classList.toggle('hidden');
+      }
+
+      function finalizarPagamento() {
+        if (cart.length === 0) {
+          alert('O carrinho está vazio.');
+          return;
+        }
+        alert('Simulação de pagamento concluída.');
+      }
+
+      loadProducts();
+    </script>
+  </body>
+</html>

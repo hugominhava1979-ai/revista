@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chatbot da Revista 🤖✨</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>RevistaBot 🤖✨</h1>
+      <p>O teu robozinho curioso pronto para explorar a revista contigo!</p>
+    </header>
+
+    <!-- Mascote estilo Astro Bot (versão original nossa) -->
+    <div id="mascote">
+      <div class="robo-cabeca">
+        <div class="olho olho-esq"></div>
+        <div class="olho olho-dir"></div>
+        <div class="boca"></div>
+      </div>
+      <div class="robo-corpo"></div>
+    </div>
+
+    <main>
+      <div id="chat-container">
+        <div id="messages"></div>
+
+        <div id="input-area">
+          <input type="text" id="user-input" placeholder="Fala comigo! 😄" />
+          <button id="send-btn">Enviar</button>
+        </div>
+      </div>
+    </main>
+
+    <script src="chatbot.js"></script>
+  </body>
+</html>
