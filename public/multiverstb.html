@@ -6,7 +6,6 @@
   <title>MultiverSTB</title>
 
   <style>
-    /* Reset */
     * {
       margin: 0;
       padding: 0;
@@ -23,7 +22,6 @@
       flex-direction: column;
     }
 
-    /* Banner fixo */
     .ad-banner {
       position: fixed;
       top: 0;
@@ -61,7 +59,6 @@
       margin-top: 5px;
     }
 
-    /* GRID ÚNICA PARA TODOS OS BOTÕES */
     .button-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -103,26 +100,6 @@
       box-shadow: 0 6px 16px rgba(0,0,0,0.18);
     }
 
-    /* BOTÃO DA REVISTA */
-    .revista-btn {
-      display: inline-block;
-      margin: 20px auto 10px auto;
-      padding: 10px 22px;
-      background: #0077b6;
-      color: #fff;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: 8px;
-      text-decoration: none;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-      transition: 0.25s ease;
-    }
-
-    .revista-btn:hover {
-      background: #005f8a;
-      transform: translateY(-3px);
-    }
-
     footer {
       margin-top: auto;
       padding: 15px;
@@ -134,7 +111,6 @@
 
 <body>
 
-  <!-- Banner fixo -->
   <div class="ad-banner">
     <img src="https://via.placeholder.com/728x90?text=Publicidade" alt="Banner Publicitário">
   </div>
@@ -160,11 +136,7 @@
           <span>📱 Hi-Tech</span>
         </button>
 
-        <button class="btn-img" style="background-image:url('https://www.wonderfulpcb.com/wp-content/uploads/2025/03/Role-of-Electronic-Devices-Circuits-in-Modern-Technology.png')" onclick="navigate('equipamentos')">
-          <span>🔧 Peças e Equip. Eletrónicos</span>
-        </button>
-
-        <button class="btn-img" style="background-image:url('https://0ad1cf25e6.cbaul-cdnwnd.com/e06ad804cf6570cc12e05b9aa9129586/200000001-04f8704f8a/Como-montar-uma-auto-peca-1.jpg?ph=0ad1cf25e6')" onclick="navigate('autopeças.html')">
+        <button class="btn-img" style="background-image:url('https://0ad1cf25e6.cbaul-cdnwnd.com/e06ad804cf6570cc12e05b9aa9129586/200000001-04f8704f8a/Como-montar-uma-auto-peca-1.jpg?ph=0ad1cf25e6')" onclick="navigate('autopecas.html')">
           <span>🚗 Peças Auto</span>
         </button>
 
@@ -176,18 +148,20 @@
           <span>🎉 Eventos e Comércio</span>
         </button>
 
-        <button class="btn-img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9UBUVxihsjaQTfKAghYDlpgvxKp1acQ3L5g&s')" onclick="navigate('cripto')">
+        <button class="btn-img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9UBUVxihsjaQTfKAghYDlpgvxKp1acQ3L5g&s')" onclick="navigate('cryptoFrame.html')">
           <span>💰 Criptomoedas</span>
+        </button>
+
+        <!-- BOTÃO DA REVISTA -->
+        <button class="btn-img" 
+                style="background-image:url('https://img.freepik.com/free-vector/graident-ai-robot-vectorart_78370-4114.jpg?semt=ais_hybrid&w=740&q=80')" 
+                onclick="window.open('LINK_DA_REVISTA', '_blank')">
+          <span>📖 Aceder à Revista Bot</span>
         </button>
 
       </div>
     </main>
   </div>
-
-  <!-- BOTÃO DA REVISTA -->
-  <a href="public/index.html" class="revista-btn" target="_blank">
-    📖 Aceder à Revista Bot
-  </a>
 
   <footer>
     <p>&copy; 2026 MultiverSTB</p>
@@ -195,7 +169,7 @@
 
   <script>
     function navigate(section) {
-      alert("Navegar para: " + section);
+      window.location.href = section;
     }
   </script>
 
