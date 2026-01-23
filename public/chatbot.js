@@ -1,9 +1,36 @@
 const messages = document.getElementById("messages");
 const input = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
-const loadBtn = document.getElementById("load-revista-btn");
 
-let revistaConteudo = ""; // aqui fica guardado o texto das páginas
+let revistaConteudo = "";
+
+// Carrega automaticamente todas as páginas HTML da pasta revista
+async function carregarPaginasRevista() {
+  try {
+    const lista = await fetch("revista/");
+    const texto = await lista.text();
+
+    // Extrai nomes de ficheiros .html
+    const matches = [...texto.matchAll(/href="([^"]+\.html)"/g)];
+
+    for (let m of matches) {
+      const ficheiro = m[1];
+      const resp = await fetch(`revista/${ficheiro}`);
+      const html = await resp.text();
+
+      const temp = document.createElement("div");
+      temp.innerHTML = html;
+      revistaConteudo += temp.innerText + "\n\n";
+    }
+
+    addMessage("Revista carregada automaticamente. Já posso responder com base nela.", "bot");
+
+  } catch (e) {
+    addMessage("Não consegui carregar as páginas da revista.", "bot");
+  }
+}
+
+carregarPaginasRevista();
 
 function addMessage(text, sender) {
   const msg = document.createElement("div");
@@ -13,48 +40,17 @@ function addMessage(text, sender) {
   messages.scrollTop = messages.scrollHeight;
 }
 
-// Carrega todas as páginas da pasta revista
-async function carregarRevista() {
-  const paginas = ["pagina1.html", "pagina2.html"]; // adiciona mais se quiseres
-
-  revistaConteudo = "";
-
-  for (let p of paginas) {
-    try {
-      const resp = await fetch(`revista/${p}`);
-      const html = await resp.text();
-
-      // extrai apenas texto
-      const temp = document.createElement("div");
-      temp.innerHTML = html;
-      revistaConteudo += temp.innerText + "\n\n";
-
-    } catch (e) {
-      console.log("Erro ao carregar página:", p);
-    }
-  }
-
-  addMessage("Revista carregada! Já posso responder com base nela.", "bot");
-}
-
-loadBtn.addEventListener("click", carregarRevista);
-
 sendBtn.addEventListener("click", () => {
   const text = input.value.trim();
   if (!text) return;
 
   addMessage("Tu: " + text, "user");
 
-  let resposta = "Ainda não carregaste a revista.";
+  let resposta = "Procurei na revista mas não encontrei nada sobre isso.";
 
-  if (revistaConteudo.length > 0) {
-    // resposta baseada no conteúdo
-    if (revistaConteudo.toLowerCase().includes(text.toLowerCase())) {
-      resposta = "Encontrei essa informação na revista! Aqui vai um resumo:\n\n" +
-                 revistaConteudo.substring(0, 300) + "...";
-    } else {
-      resposta = "Procurei na revista mas não encontrei nada sobre isso.";
-    }
+  if (revistaConteudo.toLowerCase().includes(text.toLowerCase())) {
+    resposta = "Encontrei essa informação na revista! Aqui vai um resumo:\n\n" +
+               revistaConteudo.substring(0, 300) + "...";
   }
 
   setTimeout(() => {

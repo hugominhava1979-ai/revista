@@ -3,10 +3,10 @@
 body {
   margin: 0;
   padding: 0;
-  background: #001f3f; /* navy */
+  background: #001f3f;
   font-family: 'Orbitron', sans-serif;
   color: #7dd6ff;
-  overflow: hidden; /* impede expandir */
+  overflow: hidden;
 }
 
 #app-container {
@@ -23,18 +23,19 @@ header {
   text-align: center;
 }
 
-#revista-btn-container button {
+#revista-btn {
+  display: inline-block;
   margin-top: 10px;
   padding: 10px 20px;
   background: transparent;
   border: 2px solid #00aaff;
   color: #00aaff;
   border-radius: 10px;
-  cursor: pointer;
+  text-decoration: none;
   transition: 0.3s;
 }
 
-#revista-btn-container button:hover {
+#revista-btn:hover {
   background: #00aaff;
   color: #001f3f;
 }
