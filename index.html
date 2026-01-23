@@ -6,8 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<style>
+  iframe{
+    width:70%;
+    height:100vh;
+  }
 
+  #app-container{
+    width:25%;
+    height:100vh;
+    float:left;
+  }
+</style>
+<body>
+<iframe id="mag" name="magazine" src="revista/multiverstb.html"></iframe>
   <div id="app-container">
 
     <header>
@@ -16,7 +28,7 @@
 
       <!-- Botão que abre o site MultiverSTB -->
       <div id="revista-btn-container">
-        <a href="revista/MultiverSTB.html" id="revista-btn">Ir para MultiverSTB</a>
+        <a href="revista/multiverstb.html" id="revista-btn" target="magazine">Ir para MultiverSTB</a>
       </div>
     </header>
 

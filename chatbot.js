@@ -3,24 +3,34 @@ const input = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 
 let revistaConteudo = "";
+let artigos = {}; // Guarda cada artigo individualmente
 
 // Carrega automaticamente todas as páginas HTML da pasta revista
 async function carregarPaginasRevista() {
   try {
-    const lista = await fetch("revista/");
-    const texto = await lista.text();
+    const resp = await fetch("/api/listar-revista");
+    const ficheiros = await resp.json();
 
-    // Extrai nomes de ficheiros .html
-    const matches = [...texto.matchAll(/href="([^"]+\.html)"/g)];
-
-    for (let m of matches) {
-      const ficheiro = m[1];
-      const resp = await fetch(`revista/${ficheiro}`);
-      const html = await resp.text();
+    for (let ficheiro of ficheiros) {
+      const respHtml = await fetch(`revista/${ficheiro}`);
+      const html = await respHtml.text();
 
       const temp = document.createElement("div");
       temp.innerHTML = html;
-      revistaConteudo += temp.innerText + "\n\n";
+
+      // REMOVE CSS, JS, META, LINK
+      temp.querySelectorAll("style, script, meta, link").forEach(el => el.remove());
+
+      // REMOVE BANNERS OU ELEMENTOS FIXOS
+      temp.querySelectorAll(".ad-banner, header, nav, footer").forEach(el => el.remove());
+
+      // Agora extrai só o texto limpo
+      const textoLimpo = temp.innerText
+        .replace(/\s+/g, " ")
+        .trim();
+
+      artigos[ficheiro] = textoLimpo;
+      revistaConteudo += textoLimpo + "\n\n";
     }
 
     addMessage("Revista carregada automaticamente. Já posso responder com base nela.", "bot");
@@ -29,6 +39,7 @@ async function carregarPaginasRevista() {
     addMessage("Não consegui carregar as páginas da revista.", "bot");
   }
 }
+
 
 carregarPaginasRevista();
 
@@ -48,14 +59,21 @@ sendBtn.addEventListener("click", () => {
 
   let resposta = "Procurei na revista mas não encontrei nada sobre isso.";
 
-  if (revistaConteudo.toLowerCase().includes(text.toLowerCase())) {
-    resposta = "Encontrei essa informação na revista! Aqui vai um resumo:\n\n" +
-               revistaConteudo.substring(0, 300) + "...";
+  const pesquisa = text.toLowerCase();
+
+  // Procura artigo mais relevante
+  for (let nome in artigos) {
+    if (artigos[nome].toLowerCase().includes(pesquisa)) {
+      resposta =
+        `Encontrei essa informação no artigo **${nome}**!\n\n` +
+        artigos[nome].substring(0, 400) + "...";
+      break;
+    }
   }
 
   setTimeout(() => {
     addMessage("RevistaBot: " + resposta, "bot");
-  }, 400);
+  }, 300);
 
   input.value = "";
 });
