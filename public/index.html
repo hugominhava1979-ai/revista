@@ -2,46 +2,34 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8" />
-  <title>RevistaBot</title>
+  <title>RevistaBot Futurista</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <div id="app-container">
+
     <header>
       <h1>RevistaBot</h1>
-      <p>O teu robozinho tecnológico a explorar a revista contigo!</p>
+      <p>Interface Futurista de Consulta</p>
 
-      <!-- Botão para abrir a revista -->
       <div id="revista-btn-container">
-        <a href="revista/multiverstb.html" class="revista-btn">Abrir Revista</a>
+        <button id="load-revista-btn">Carregar Revista</button>
       </div>
     </header>
-
-    <!-- Robô original -->
-    <div id="mascote">
-      <div class="robo-cabeca">
-        <div class="olho olho-esq"></div>
-        <div class="olho olho-dir"></div>
-        <div class="visor"></div>
-        <div class="boca"></div>
-      </div>
-      <div class="robo-corpo">
-        <div class="painel"></div>
-      </div>
-    </div>
 
     <main>
       <div id="chat-container">
         <div id="messages"></div>
 
         <div id="input-area">
-          <input type="text" id="user-input" placeholder="Fala comigo! 😄" />
+          <input type="text" id="user-input" placeholder="Fala comigo..." />
           <button id="send-btn">Enviar</button>
         </div>
       </div>
     </main>
+
   </div>
 
   <script src="chatbot.js"></script>
